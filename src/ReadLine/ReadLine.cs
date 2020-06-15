@@ -46,15 +46,19 @@ namespace System
             return GetText(keyHandler);
         }
 
+        public static event Action<ConsoleKey, string> BufferChanged;
+
         private static string GetText(KeyHandler keyHandler)
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             while (keyInfo.Key != ConsoleKey.Enter)
             {
                 keyHandler.Handle(keyInfo);
+                BufferChanged?.Invoke(keyInfo.Key, keyHandler.Text);
                 keyInfo = Console.ReadKey(true);
             }
 
+            BufferChanged?.Invoke(keyInfo.Key, keyHandler.Text);
             Console.WriteLine();
             return keyHandler.Text;
         }
