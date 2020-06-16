@@ -18,7 +18,7 @@ namespace Internal.ReadLine.Abstractions
 
         public void SetCursorPosition(int left, int top)
         {
-            if (!PasswordMode)
+            if (!PasswordMode && left >= 0 && top >= 0)
                 Console.SetCursorPosition(left, top);
         }
 
